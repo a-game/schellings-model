@@ -128,59 +128,76 @@ function App() {
     });
   };
 
-  const call = (func: Function, val: string) => {
-    func.call(null, parseFloat(val));
-  };
+  const renderControls = () => (
+    <div className="sim-controls">
+      <div className="sim-ctrl-group">
+        <button onClick={toggle}>{running ? "Stop" : "Start"}</button>
+        <button
+          onClick={() => {
+            stop();
+            triggerReset(true);
+          }}
+        >
+          Reset
+        </button>
+      </div>
+
+      <div className="sim-ctrl-group">
+        <div className="sim-sliders">
+          <label htmlFor="tolerensSlider">Tolerens</label>
+          <input
+            id="tolerensSlider"
+            type="range"
+            min={0}
+            max={1}
+            step={0.1}
+            value={tolerens.toString()}
+            onChange={(e) => setTolerens(parseFloat(e.target.value))}
+          />
+          <label htmlFor="tolerensSlider">{tolerens * 100}%</label>
+
+          <label htmlFor="emptySlider">Empty cells</label>
+          <input
+            id="emptySlider"
+            type="range"
+            min={0}
+            max={1}
+            step={0.1}
+            value={emptyPercent.toString()}
+            onChange={(e) => {
+              stop();
+              setEmptyPercent(parseFloat(e.target.value));
+            }}
+          />
+          <label htmlFor="emptySlider">{emptyPercent * 100}%</label>
+
+          <label htmlFor="xPercentSlider">Red population</label>
+          <input
+            id="xPercentSlider"
+            type="range"
+            min={0}
+            max={1}
+            step={0.1}
+            value={xPercent.toString()}
+            onChange={(e) => {
+              stop();
+              setXPercent(parseFloat(e.target.value));
+            }}
+          />
+          <label htmlFor="xPercentSlider">{xPercent * 100}%</label>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="app">
       <header className="app-header">
         <h1>Schelling's Model of Segregation</h1>
-        <div className="app-header-controls">
-          <button onClick={toggle}>{running ? "Stop" : "Start"}</button>
-          <button onClick={reset}>Reset</button>
-        </div>
       </header>
 
       <div className="container">
-        <div className="sim-controls">
-          <div className="sim-ctrl">
-            <label htmlFor="tolerensSlider">Tolerens</label>
-            <input
-              id="tolerensSlider"
-              type="range"
-              min={0}
-              max={1}
-              step={0.1}
-              value={tolerens.toString()}
-              onChange={(e) => call(setTolerens, e.target.value)}
-            />
-          </div>
-          <div className="sim-ctrl">
-            <label htmlFor="emptySlider">Empty cells</label>
-            <input
-              id="emptySlider"
-              type="range"
-              min={0}
-              max={1}
-              step={0.1}
-              value={emptyPercent.toString()}
-              onChange={(e) => call(setEmptyPercent, e.target.value)}
-            />
-          </div>
-          <div className="sim-ctrl">
-            <label htmlFor="tolerensSlider">Population</label>
-            <input
-              id="tolerensSlider"
-              type="range"
-              min={0}
-              max={1}
-              step={0.1}
-              value={xPercent.toString()}
-              onChange={(e) => call(setXPercent, e.target.value)}
-            />
-          </div>
-        </div>
+        {renderControls()}
         <div
           id="sim-grid"
           className="sim-grid"
@@ -191,7 +208,10 @@ function App() {
           {renderCells()}
         </div>
         <label htmlFor="sim-grid" className="sim-grid__label">
-          {`Unhappy: ${unhappyCount} (${((unhappyCount / cells.length) * 100).toFixed(2)}%)`}
+          {`Ticks: ${tickCount} — Unhappy cells: ${unhappyCount} (${(
+            (unhappyCount / cells.length) *
+            100
+          ).toFixed(1)}%)`}
         </label>
       </div>
     </div>
