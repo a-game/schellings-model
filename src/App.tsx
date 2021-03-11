@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./App.scss";
 import {
   Nullable,
@@ -44,6 +44,7 @@ function App() {
   const [cells, setCells] = useState(Array<Nullable<Cell>>());
   const [unhappyCount, setUnhappyCount] = useState(0);
   const [tickCount, setTickCount] = useState(0);
+  const timerRef = useRef<number>(0);
 
   useLayoutEffect(() => reset(), [tolerens, emptyPercent, xPercent]);
 
@@ -74,7 +75,7 @@ function App() {
 
     if (!running) return;
 
-    setTimeout(() => {
+    timerRef.current = window.setTimeout(() => {
       const res = tick();
       // Nothing changed so everybody must be happy.
       if (cells.every((value, index) => value === res.newState[index])) {
@@ -106,7 +107,10 @@ function App() {
   }
 
   const toggle = () => (running ? stop() : run());
-  const stop = () => setRunning(false);
+  const stop = () => {
+    window.clearTimeout(timerRef.current);
+    setRunning(false);
+  };
   const run = () => setRunning(true);
   function reset() {
     if (running) {
