@@ -41,12 +41,37 @@ function App() {
   const [xPercent, setXPercent] = useState(0.2);
 
   const [running, setRunning] = useState(false);
+  const [shouldReset, triggerReset] = useState(false);
   const [cells, setCells] = useState(Array<Nullable<Cell>>());
   const [unhappyCount, setUnhappyCount] = useState(0);
   const [tickCount, setTickCount] = useState(0);
   const timerRef = useRef<number>(0);
 
-  useLayoutEffect(() => reset(), [tolerens, emptyPercent, xPercent]);
+  useLayoutEffect(() => {
+    function getInitialSetup() {
+      const initial: Nullable<Cell>[] = [];
+
+      for (let i = 0; i < _area; i++) {
+        const x = Math.random();
+
+        if (x <= emptyPercent) {
+          initial.push(null);
+        } else if (x <= (1 - emptyPercent) * xPercent + emptyPercent) {
+          initial.push({ kind: Kind.X });
+        } else {
+          initial.push({ kind: Kind.O });
+        }
+      }
+      return initial;
+    }
+
+    const initial: Nullable<Cell>[] = getInitialSetup();
+    setCells(initial);
+
+    logCellStatus(initial);
+    setUnhappyCount(0);
+    triggerReset(false);
+  }, [_area, emptyPercent, xPercent, shouldReset]);
 
   useEffect(() => {
     function tick(): TickResult {
@@ -88,37 +113,12 @@ function App() {
     }, _tickDelay);
   }, [running, cells, tolerens]);
 
-  function setup() {
-    const initial: Nullable<Cell>[] = [];
-
-    for (let i = 0; i < _area; i++) {
-      const x = Math.random();
-
-      if (x <= emptyPercent) {
-        initial.push(null);
-      } else if (x <= (1 - emptyPercent) * xPercent + emptyPercent) {
-        initial.push({ kind: Kind.X });
-      } else {
-        initial.push({ kind: Kind.O });
-      }
-    }
-    logCellStatus(initial);
-    return initial;
-  }
-
   const toggle = () => (running ? stop() : run());
   const stop = () => {
     window.clearTimeout(timerRef.current);
     setRunning(false);
   };
   const run = () => setRunning(true);
-  function reset() {
-    if (running) {
-      stop();
-    }
-    const initial = setup();
-    setCells(initial);
-  };
 
   const renderCells = () => {
     return cells.map((cell, i) => {
