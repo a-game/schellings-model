@@ -79,17 +79,17 @@ function App() {
       let unhappy = 0;
 
       cells.forEach((cell, index) => {
-        if (cell !== null) {
-          const neighbours = getGridNeighbours(index, cells, _width);
-          const different = neighbours
-            .filter(notEmpty)
-            .filter((c) => c.kind !== cell.kind);
+        if (cell === null) return;
 
-          if (different.length / neighbours.length > tolerens) {
-            unhappy++;
-            const newHome = getRandomEmptyIndex(cells);
-            swap(copy, index, newHome);
-          }
+        const neighbours = getGridNeighbours(index, cells, _width);
+        const different = neighbours
+          .filter(notEmpty)
+          .filter((c) => c.kind !== cell.kind);
+
+        if (different.length / neighbours.length > tolerens) {
+          unhappy++;
+          const newHome = getRandomEmptyIndex(cells);
+          swap(copy, index, newHome);
         }
       });
       return {
@@ -97,8 +97,6 @@ function App() {
         unhappyCount: unhappy,
       };
     }
-
-    if (!running) return;
 
     timerRef.current = window.setTimeout(() => {
       const res = tick();
@@ -114,11 +112,11 @@ function App() {
   }, [running, cells, tolerens]);
 
   const toggle = () => (running ? stop() : run());
+  const run = () => setRunning(true);
   const stop = () => {
     window.clearTimeout(timerRef.current);
     setRunning(false);
   };
-  const run = () => setRunning(true);
 
   const renderCells = () => {
     return cells.map((cell, i) => {
