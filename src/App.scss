@@ -1,0 +1,82 @@
+@import "styles/colors";
+
+.app-header {
+  background-color: var(--white);
+  color: var(--gamesome-pink);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  > h1 {
+    font-weight: normal;
+  }
+
+  &-controls {
+    display: flex;
+  }
+
+  button {
+    outline: none;
+    cursor: pointer;
+    line-height: 1em;
+    border: none;
+    max-height: 32px;
+    padding: 8px 16px;
+    color: var(--white);
+    background: var(--gamesome-pink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    transition: filter 0.3s ease;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+    &:active {
+      filter: brightness(0.9);
+    }
+  }
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .sim-grid {
+    margin: 16px 0;
+    display: grid;
+
+    &__label {
+      margin-bottom: 16px;
+    }
+  }
+
+  .sim-cell {
+    min-height: 10px;
+    min-width: 10px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+
+    &__X {
+      background: var(--gamesome-pink);
+    }
+
+    &__O {
+      background: var(--blue);
+    }
+  }
+
+  .sim-controls {
+    display: flex;
+    justify-content: space-evenly;
+
+    .sim-ctrl {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
