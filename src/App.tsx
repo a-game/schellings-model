@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import "./App.scss";
 import {
   Nullable,
@@ -43,6 +43,8 @@ function App() {
   const [running, setRunning] = useState(false);
   const [cells, setCells] = useState(Array<Nullable<Cell>>());
   const [unhappyCount, setUnhappyCount] = useState(0);
+
+  useLayoutEffect(() => reset(), [tolerens, emptyPercent, xPercent]);
 
   useEffect(() => {
     function tick(): TickResult {
@@ -106,7 +108,7 @@ function App() {
   const toggle = () => (running ? stop() : run());
   const stop = () => setRunning(false);
   const run = () => setRunning(true);
-  const reset = () => {
+  function reset() {
     if (running) {
       stop();
     }
@@ -189,7 +191,7 @@ function App() {
           {renderCells()}
         </div>
         <label htmlFor="sim-grid" className="sim-grid__label">
-          {`Unhappy: ${unhappyCount} (${(unhappyCount / cells.length) * 100}%)`}
+          {`Unhappy: ${unhappyCount} (${((unhappyCount / cells.length) * 100).toFixed(2)}%)`}
         </label>
       </div>
     </div>
