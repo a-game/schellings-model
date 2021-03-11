@@ -36,8 +36,8 @@ function App() {
   const _width = 50;
   const _area = Math.pow(_width, 2);
 
-  const [tolerens, setTolerens] = useState(0.7);
-  const [emptyPercent, setEmptyPercent] = useState(0.1);
+  const [tolerens, setTolerens] = useState(0.6);
+  const [emptyPercent, setEmptyPercent] = useState(0.2);
   const [xPercent, setXPercent] = useState(0.2);
 
   const [running, setRunning] = useState(false);
@@ -137,6 +137,7 @@ function App() {
         <button
           onClick={() => {
             stop();
+            setTickCount(0);
             triggerReset(true);
           }}
         >
