@@ -20,6 +20,8 @@
   .sim-grid {
     margin: 16px 0;
     display: grid;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
 
     &__label {
       margin-bottom: 16px;
@@ -29,7 +31,7 @@
   .sim-cell {
     min-height: 10px;
     min-width: 10px;
-    border: 1px solid var(--border-color);
+    border-radius: 50%;
     background: transparent;
 
     &__X {
