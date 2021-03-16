@@ -4,6 +4,10 @@ A React components that simulates Schelling's Segregation model.
 
 ## How to use
 
+`npm install schellings-model-sim`
+
+## Or
+
 Clone this repo to your local computer, then run:
 
 - `npm install && npm run build`
@@ -15,6 +19,8 @@ Finally, to fix the multiple copies of React bug that shows up with linked React
 
 - navigate to the root of the `schellings-model-sim` package
 - run `npm link "../path/to/your/project/mode_modules/react"`
+
+## ...and then
 
 You can now import `schellings-model-sim` as a normal package installed from npm like so:
 
