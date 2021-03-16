@@ -1,17 +1,9 @@
-@import "styles/colors";
+.sim {
+  --gamesome-pink: #dd2e5a;
+  --blue: #0075ff;
+  --white: #fff;
+  --border-color: #d9d9d9;
 
-.app-header {
-  color: var(--gamesome-pink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  > h1 {
-    font-weight: normal;
-  }
-}
-
-.container {
   width: 100%;
   display: flex;
   flex-direction: column;
