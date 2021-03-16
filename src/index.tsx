@@ -102,12 +102,12 @@ const Simulation: React.FC = () => {
 
     timerRef.current = window.setTimeout(() => {
       const res = tick();
+      setUnhappyCount(res.unhappyCount);
       // Nothing changed so everybody must be happy.
       if (cells.every((value, index) => value === res.newState[index])) {
         stop();
       } else if (running) {
         setTickCount((v) => v + 1);
-        setUnhappyCount(res.unhappyCount);
         setCells(res.newState);
       }
     }, _tickDelay);
@@ -195,6 +195,14 @@ const Simulation: React.FC = () => {
     </div>
   );
 
+  const getLabelText = () => {
+    const text = `Ticks: ${tickCount} — `;
+    if (unhappyCount > 0) {
+      const unhappyPercent = ((unhappyCount / cells.length) * 100).toFixed(1);
+      return text + `Unhappy cells: ${unhappyCount} (${unhappyPercent}%)`;
+    }
+    return text + "Everybody's happy!"
+  }
   return (
     <div className="sim">
       {renderControls()}
@@ -208,10 +216,7 @@ const Simulation: React.FC = () => {
         {renderCells()}
       </div>
       <label htmlFor="sim-grid" className="sim-grid__label">
-        {`Ticks: ${tickCount} — Unhappy cells: ${unhappyCount} (${(
-          (unhappyCount / cells.length) *
-          100
-        ).toFixed(1)}%)`}
+        {getLabelText()}
       </label>
     </div>
   );

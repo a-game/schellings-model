@@ -1,6 +1,6 @@
 {
   "name": "schellings-model-sim",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Schelling's segregation model simulation",
   "author": "a-game",
   "license": "Apache-2.0",
